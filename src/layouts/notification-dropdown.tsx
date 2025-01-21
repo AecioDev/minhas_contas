@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { RefObject, useState } from 'react';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { Popover, Title, Badge, Checkbox, Text } from 'rizzui';
-import Link from 'next/link';
-import { useMedia } from '@core/hooks/use-media';
-import SimpleBar from '@core/ui/simplebar';
-import { PiCheck } from 'react-icons/pi';
-import { notificationsData } from '@/data/notifications';
+import { JSX, RefObject, useState } from "react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { Popover, Title, Badge, Checkbox, Text } from "rizzui";
+import Link from "next/link";
+import { useMedia } from "@core/hooks/use-media";
+import SimpleBar from "@core/ui/simplebar";
+import { PiCheck } from "react-icons/pi";
+import { notificationsData } from "@/data/notifications";
 
 dayjs.extend(relativeTime);
 
@@ -69,7 +69,7 @@ function NotificationsList({
         </div>
       </SimpleBar>
       <Link
-        href={'#'}
+        href={"#"}
         onClick={() => setIsOpen(false)}
         className="-me-6 block px-6 pb-0.5 pt-3 text-center hover:underline"
       >
@@ -82,16 +82,17 @@ function NotificationsList({
 export default function NotificationDropdown({
   children,
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children: JSX.Element & { ref?: RefObject<any> };
 }) {
-  const isMobile = useMedia('(max-width: 480px)', false);
+  const isMobile = useMedia("(max-width: 480px)", false);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Popover
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       shadow="sm"
-      placement={isMobile ? 'bottom' : 'bottom-end'}
+      placement={isMobile ? "bottom" : "bottom-end"}
     >
       <Popover.Trigger>{children}</Popover.Trigger>
       <Popover.Content className="z-[9999] px-0 pb-4 pe-6 pt-5 dark:bg-gray-100 [&>svg]:hidden [&>svg]:dark:fill-gray-100 sm:[&>svg]:inline-flex">

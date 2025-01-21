@@ -1,32 +1,52 @@
-import type { Metadata } from "next";
-import { Mulish } from "next/font/google";
-import "./globals.css";
-//import { Toaster } from "sonner";
-import { AuthProvider } from "@/context/AuthContext";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { Toaster } from "react-hot-toast";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
+import AuthProvider from "@/app/api/auth/[...nextauth]/auth-provider";
+import GlobalDrawer from "@/app/shared/drawer-views/container";
+import GlobalModal from "@/app/shared/modal-views/container";
+import { JotaiProvider, ThemeProvider } from "@/app/shared/theme-provider";
+import { siteConfig } from "@/config/site.config";
+import { inter, lexendDeca } from "@/app/fonts";
+import cn from "@core/utils/class-names";
+import NextProgress from "@core/components/next-progress";
 
-const mulish = Mulish({
-  subsets: ["latin-ext"],
-});
+// styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "@/app/globals.css";
 
-export const metadata: Metadata = {
-  title: "Minhas Contas App",
-  description: "Simplificando o seu Controle Financeiro Pessoal!",
+export const metadata = {
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const session = await getServerSession(authOptions);
   return (
-    <html lang="en">
-      <body className={`${mulish.className} antialiased`}>
-        <AuthProvider>
+    <html
+      lang="en"
+      dir="ltr"
+      // required this one for next-themes, remove it if you are not using next-theme
+      suppressHydrationWarning
+    >
+      <body
+        // to prevent any warning that is caused by third party extensions like Grammarly
+        suppressHydrationWarning
+        className={cn(inter.variable, lexendDeca.variable, "font-inter")}
+      >
+        <AuthProvider session={session}>
           <ThemeProvider>
-            <div className="flex h-full flex-col overflow-hidden">
+            <NextProgress />
+            <JotaiProvider>
               {children}
-            </div>
+              <Toaster />
+              <GlobalDrawer />
+              <GlobalModal />
+            </JotaiProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>
