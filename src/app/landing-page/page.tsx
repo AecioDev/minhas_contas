@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Layout } from "@/components/layout/layout";
+import { Layout } from "@/components/layout_old/layout";
 
 export default function LandingPage() {
   return (
